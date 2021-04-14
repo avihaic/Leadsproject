@@ -1,7 +1,9 @@
 const validator = require('validator')
 const mongoose = require('mongoose')
 const generateUniqueId = require('generate-unique-id');
-
+const CampaignInputs = require('../models/campaignsInputs')
+const Campaigncannels = require('../models/campaignscannel')
+const Leads = require('../models/Leads')
 
 const campaignSchema = new mongoose.Schema({
     campingid:{
@@ -22,7 +24,7 @@ const campaignSchema = new mongoose.Schema({
         }
     },
     owner:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:String,
         required:true,
         ref: 'User'
     }
@@ -33,10 +35,11 @@ const campaignSchema = new mongoose.Schema({
 
 //delete leads and inputs and cannels when campings is removed
 campaignSchema.pre('remove', async function(next){
-    const user = this
-    await CampaignInputs.deleteMany({camp_owner: Campaigns._id})
-    await Campaigncannels.deleteMany({camp_owner: Campaigns._id})
-    await Leads.deleteMany({camp_owner: Campaigns._id})
+    const camping = this
+    await CampaignInputs.deleteMany({camp_owner: camping.campingid})
+    await Campaigncannels.deleteMany({camp_owner: camping.campingid})
+    await Leads.deleteMany({camp_owner: camping.campingid})
+    next()
 })
 
 const Campaigns = mongoose.model('Campaigns',campaignSchema)

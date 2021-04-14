@@ -10,11 +10,11 @@ require('mongoose')
 router.post('/Formfileds', auth, async (req, res) =>{
 
     const keys = uuidAPIKey.create()
-    const query = await Campaigncannels.find( {owner: req.user._id })
+    const query = await Campaigncannels.find( {cannelid: req.query.id })
    
     const Fileds = new CampaignInputs({
       ...req.body,
-      owner: req.user._id,
+      owner: req.user.userid,
       cannel_owner: req.query.id,
       camp_owner: query[0].camp_owner,
       uuidkey: keys.uuid
@@ -23,7 +23,7 @@ router.post('/Formfileds', auth, async (req, res) =>{
     try {
         await Fileds.save()
         const createurl = await CampaignInputs.createurl(Fileds,keys.apiKey)
-        res.status(200).send('Inputs saved ' + ' url=' + createurl)
+        res.status(200).send('Inputs saved ' + 'url=' + createurl)
     } catch (e) {
         res.status(400).send('there is inputs for this cannel all ready')
     } 

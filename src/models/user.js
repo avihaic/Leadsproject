@@ -60,7 +60,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.virtual('campaigns', {
     ref: 'Campaigns',
-    localField: '_id',
+    localField: 'this.userid',
     foreignField: 'owner',
 })
 
@@ -111,10 +111,11 @@ userSchema.pre('save', async function(next){
 //delete user campings when user is removed
 userSchema.pre('remove', async function(next){
     const user = this
-    await Campaigns.deleteMany({owner: user._id})
-    await CampaignInputs.deleteMany({owner: user._id})
-    await Campaigncannels.deleteMany({owner: user._id})
-    await Leads.deleteMany({owner: user._id})
+    await Campaigns.deleteMany({owner: user.userid})
+    await CampaignInputs.deleteMany({owner: user.userid})
+    await Campaigncannels.deleteMany({owner: user.userid})
+    await Leads.deleteMany({owner: user.userid})
+    next()
 })
 
 const User = mongoose.model('User',userSchema)

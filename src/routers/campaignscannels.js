@@ -9,7 +9,7 @@ router.post('/cannel', auth, async (req, res) =>{
  //   console.log(req.body)
     const cannel = new Campaigncannels({
       ...req.body,
-      owner: req.user._id,
+      owner: req.user.userid,
       camp_owner: req.query.id
     })
 

@@ -7,7 +7,7 @@ require('mongoose')
 router.post('/campaign', auth, async (req, res) =>{
     const campaign = new Campaigns({
       ...req.body,
-      owner: req.user._id
+      owner: req.user.userid
     })
 
     try {
@@ -24,13 +24,13 @@ router.patch('/campaign/:id', auth ,async (req,res) =>{
     const updates = Object.keys(req.body)
     const alloption = ["name","kind"]
     const isupdates =  updates.every((update) => alloption.includes(update))
-    
+
     if(!isupdates){
             res.status(400).send({error:' Error in updates'})
         }
     
         try {
-            const campaign = await Campaigns.findOne({ _id: req.params.id, owner: req.user._id })
+            const campaign = await Campaigns.findOne({campingid: req.params.id,owner: req.user.userid})
             if(!campaign){
               return res.status(404).send('no campaign with this id')
             }
@@ -47,11 +47,12 @@ router.patch('/campaign/:id', auth ,async (req,res) =>{
     //delete campaign by id
     router.delete('/campaign/:id', auth ,async (req,res) => {
         try {
-            const campaign = await Campaigns.findOneAndDelete({ _id: req.params.id, owner: req.user._id })
+            const campaign = await Campaigns.findOneAndDelete({ campingid: req.params.id, owner: req.user.userid })
             
             if(!campaign){
                 return res.status(404).send('campaign dont found')
             }
+            await req.campaign.remove()
             res.status(200).send(campaign)
         } catch (e) {
             res.status(500).send(e)

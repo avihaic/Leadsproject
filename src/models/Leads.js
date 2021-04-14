@@ -35,6 +35,9 @@ const LeadsSchema = new mongoose.Schema({
     cannel_owner:{
         type:String,
     },
+    camp_owner:{
+        type:String
+    }
 })
 
 
