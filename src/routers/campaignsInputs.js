@@ -22,10 +22,10 @@ router.post('/Formfileds', auth, async (req, res) =>{
 
     try {
         await Fileds.save()
- 
-        res.status(200).send(await CampaignInputs.createurl(Fileds,keys.apiKey))
+        const createurl = await CampaignInputs.createurl(Fileds,keys.apiKey)
+        res.status(200).send('Inputs saved ' + ' url=' + createurl)
     } catch (e) {
-        res.status(400).send(e)
+        res.status(400).send('there is inputs for this cannel all ready')
     } 
 })
 

@@ -1,5 +1,6 @@
 const validator = require('validator')
 const mongoose = require('mongoose')
+const Campaigncannels = require('../models/campaignscannel')
 
 const campaignInputsSchema = new mongoose.Schema({
     name:{type:String},
@@ -14,6 +15,8 @@ const campaignInputsSchema = new mongoose.Schema({
     camp_owner:{type:String},
     uuidkey:{type:String}
 })
+
+
 
 campaignInputsSchema.statics.createurl = async function (info,api) { 
     const obj = info.toObject()
@@ -36,7 +39,14 @@ campaignInputsSchema.statics.createurl = async function (info,api) {
 return url
 }
 
-
+campaignInputsSchema.pre('save', async function(next){
+const inputs = this
+    const val = await CampaignInputs.findOne( {cannel_owner: inputs.cannel_owner })
+    if(val){
+        throw new Error(console.error('there is inputs for this cannel all ready'))
+    } 
+    next() 
+})
 
 const CampaignInputs = mongoose.model('CampaignInputs',campaignInputsSchema)
 module.exports = CampaignInputs
