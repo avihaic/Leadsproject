@@ -25,7 +25,7 @@ router.post('/cannel', auth, async (req, res) =>{
 router.get('/cannels/:id',auth, async (req,res) =>{
  
     try {
-        const cannels = await Campaigncannels.find( {owner: req.params.id })
+        const cannels = await Campaigncannels.find( {camp_owner: req.params.id })
         if(!cannels){
             return res.status(400).send(e)
         }

@@ -36,6 +36,7 @@ const campaignSchema = new mongoose.Schema({
 //delete leads and inputs and cannels when campings is removed
 campaignSchema.pre('remove', async function(next){
     const camping = this
+    console.log(camping.campingid)
     await CampaignInputs.deleteMany({camp_owner: camping.campingid})
     await Campaigncannels.deleteMany({camp_owner: camping.campingid})
     await Leads.deleteMany({camp_owner: camping.campingid})
