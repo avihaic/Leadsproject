@@ -20,6 +20,22 @@ router.post('/leads' ,auth ,authapi, async (req, res) =>{
     }
 })
 
+//show all leads by camping id
+router.get('/showleads/:id',auth, async (req,res) => {
+    try
+    {
+        console.log(req.params.id)
+        const leads = await Leads.find({camp_owner:req.params.id})
+        console.log(leads)
+        if(leads1.length === 0){
+            console.log('in if')
+            return res.status(400).send('אין לך לידים עבור הקמפיין הזה')
+        }
+        res.status(200).send(leads)
+    } catch (e) {
+        res.status(400).send('אין לך לידים עבור הקמפיין הזה')
+    }
+})
 
 
 
