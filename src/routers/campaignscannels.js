@@ -34,5 +34,18 @@ router.get('/cannels/:id',auth, async (req,res) =>{
         res.status(400).send(e)
     }
 })
+
+router.delete('/deletecannel/:id', auth, async (req,res) =>  {
+    try {
+    const id = await Campaigncannels.findOne({cannelid:req.params.id})
+    if(!id){
+        return res.status(404).send('אין ערוץ עם מספר מזהה כזה')
+    }
+    await id.remove()
+    res.status(200).send(id) 
+    } catch (e) {
+        res.status(404).send('אין ערוץ עם מספר מזהה כזה')
+    }
+})
 module.exports = router
 
