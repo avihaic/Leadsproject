@@ -1,0 +1,30 @@
+{
+  "name": "leadsproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
+    "crypto-js": "^4.0.0",
+    "express": "^4.17.1",
+    "file-system": "^1.2.2",
+    "generate-unique-id": "^2.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.3.16",
+    "request": "^2.88.2",
+    "uuid-apikey": "^1.5.2",
+    "validator": "^10.11.0",
+    "yargs": "^16.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4",
+    "unique-identifier": "^1.0.0"
+  }
+}
